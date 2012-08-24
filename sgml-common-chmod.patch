@@ -1,0 +1,34 @@
+diff -Nur --exclude *~ sgml-common-0.5/bin/install-catalog sgml-common-0.5.new/bin/install-catalog
+--- sgml-common-0.5/bin/install-catalog.in	Mon Feb 12 15:43:14 2001
++++ sgml-common-0.5.new/bin/install-catalog.in	Mon Feb 12 15:46:26 2001
+@@ -133,12 +133,14 @@
+ 	  echo "Warning: $SGML_ORDINARY is already installed in the centralized catalog $SGML_CENTRALIZED"
+ 	else
+ 	  echo "$SGML_POINTER $SGML_ORDINARY" >> $SGML_CENTRALIZED
++	  chmod 644 $SGML_CENTRALIZED
+ 	fi
+ 	grep -q $SGML_CENTRALIZED /etc/sgml/catalog 2>/dev/null
+ 	if [ $? -ne 0 ]
+ 	then
+ 	  echo "`basename $0`: addition of $SGML_CENTRALIZED in /etc/sgml/catalog"
+ 	  echo "$SGML_POINTER $SGML_CENTRALIZED" >> /etc/sgml/catalog
++	  chmod 644 /etc/sgml/catalog
+ 	fi
+ 	;;
+    removal)
+@@ -147,6 +149,7 @@
+ 	then
+           sed -e "\:$SGML_POINTER $SGML_ORDINARY:d" < $SGML_CENTRALIZED > ${SGML_CENTRALIZED}.new
+           mv ${SGML_CENTRALIZED}.new $SGML_CENTRALIZED
++	  chmod 644 $SGML_CENTRALIZED
+ 	else
+ 	  echo "Warning: $SGML_ORDINARY was not found in the centralized catalog $SGML_CENTRALIZED"
+ 	fi
+@@ -156,6 +159,7 @@
+ 	  echo "`basename $0`: removal of $SGML_CENTRALIZED from /etc/sgml/catalog"
+           sed -e "\:$SGML_POINTER $SGML_CENTRALIZED:d" < /etc/sgml/catalog > /etc/sgml/catalog.new
+           mv /etc/sgml/catalog.new /etc/sgml/catalog
++	  chmod 644 /etc/sgml/catalog
+ 	fi
+ 	;;
+ esac
